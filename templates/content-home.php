@@ -22,7 +22,7 @@
     if($images):
       foreach($images as $image):?>
        <div class="small-12">
-        <img data-original="http://i0.wp.com/<?php echo home_url() . $image['sizes']['medium'];?>" width="300px" <?php //echo responsiveImage($image['id'], $image['sizes']['medium'], "300px");?> alt="">      
+        <img data-original="http://i<?php echo rand(0,2);?>.wp.com/<?php echo parse_url(home_url(), PHP_URL_HOST) . $image['sizes']['medium'];?>" width="300px" <?php //echo responsiveImage($image['id'], $image['sizes']['medium'], "300px");?> alt="">      
        </div>
       <?php endforeach;
   endif;?>
