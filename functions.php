@@ -75,5 +75,3 @@ function responsiveImage($image_id,$image_size,$max_width){
   }
   return $resp;
 }
-
-add_filter( 'jetpack_development_mode', '__return_true' );
