@@ -3,7 +3,7 @@
 } ?>
 
 <?php while (have_posts()) : the_post(); ?>
-  <article <?php post_class(); ?>>
+  <article <?php post_class('small-12 medium-6 large-3'); ?>>
     <header>
       <h1 class="entry-title"><?php the_title(); ?></h1>
         <?php get_template_part('templates/entry-meta'); ?>
