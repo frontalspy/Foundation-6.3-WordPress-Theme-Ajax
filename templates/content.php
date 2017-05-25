@@ -2,7 +2,7 @@
     exit; // Exit if accessed directly
 } ?>
 
-<article <?php post_class('column small-12 medium-6 large-3'); ?>>
+<article <?php post_class('column small-12 medium-6 large-4'); ?>>
   <div class="content">
     <header>
       <h2 class="entry-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
