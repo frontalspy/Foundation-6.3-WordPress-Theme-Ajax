@@ -18,12 +18,12 @@ use Roots\Sage\Wrapper;
       get_template_part('templates/header');
     ?>
     <div class="wrap container" role="document">
-      <div class="content row">
-        <main class="main column small-12 medium-9 large-10">
+      <div class="content row" id="content">
+        <main class="main column small-12 medium-8 large-9">
             <?php require Wrapper\template_path(); ?>
         </main><!-- /.main -->
         <?php if (Setup\display_sidebar()) : ?>
-          <aside class="sidebar small-12 medium-3 large-2 column">
+          <aside class="sidebar small-12 medium-4 large-3 column">
             <?php include Wrapper\sidebar_path(); ?>
           </aside><!-- /.sidebar -->
         <?php endif; ?>
