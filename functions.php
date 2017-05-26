@@ -36,7 +36,7 @@ foreach ($sage_includes as $file) {
 function nonRenderBlockScript($tag, $handle) {
   // Scripts to load normally
   $scripts = array('jquery');
-  if (in_array($handle, $scripts))
+  if (in_array($handle, $scripts) || is_admin())
     return $tag;
   return str_replace( ' src', ' defer src', $tag );
 }
