@@ -8,7 +8,6 @@ $article = get_field('post_type');?>
     <header>
        <?php get_template_part('templates/background-header');?>
         <?php get_template_part('templates/entry-meta'); ?>
-        <?php get_template_part('templates/mal-connect');?>
     </header>
     <div class="entry-content">
         <?php the_content(); ?>
