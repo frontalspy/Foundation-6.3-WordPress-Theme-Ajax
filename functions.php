@@ -31,6 +31,14 @@ foreach ($sage_includes as $file) {
     include_once $filepath;
 }
 
+// Update the jQuery version for soil plugin
+function jQueryVersion() {
+  wp_scripts()->registered['jquery']->ver = '3.2.1';
+}
+
+add_action('init', 'jQueryVersion');
+
+
 // Add async to jquery and defer all other scripts to prevent
 // render blocking.
 function nonRenderBlockScript($tag, $handle) {
@@ -108,4 +116,20 @@ function pagination($pages = '', $range = 2)
          if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<li><a href='".get_pagenum_link($pages)."'>&raquo;</a></li>";
          echo "</ul>\n";
      }
+}
+
+
+add_action( 'wp_ajax_get_post_details', 'customTest' );
+add_action( 'wp_ajax_nopriv_get_post_details', 'customTest' );
+
+function customTest () {
+  if(isset($_POST['post_slug']) && !empty($_POST['post_slug'])){
+    $slug = $_POST['post_slug'];
+    $posts = new WP_Query( array('posts_per_page' => 1, "name" => $slug) );
+    $GLOBALS['wp_query'] = $posts;
+    get_template_part('templates/content-single', get_post_type());
+    wp_reset_postdata();
+    wp_reset_query();
+  }
+  wp_die();
 }
