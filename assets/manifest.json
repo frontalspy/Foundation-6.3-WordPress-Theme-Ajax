@@ -1,0 +1,37 @@
+{
+  "dependencies": {
+    "main.js": {
+      "files": [
+        "scripts/main.js"
+      ],
+      "main": true
+    },
+    "main.css": {
+      "files": [
+        "styles/main.scss"
+      ],
+      "main": true
+    },
+    "customizer.js": {
+      "files": [
+        "scripts/customizer.js"
+      ]
+    },
+    "jquery.js": {
+      "bower": ["jquery"]
+    },
+    "review-score.js": {
+      "files": [
+        "scripts/review-score.js"
+      ]
+    },
+    "mal-connect.js": {
+      "files": [
+        "scripts/mal-connect.js"
+      ]
+    }
+  },
+  "config": {
+    "devUrl": "https://localhost/tester/"
+  }
+}
