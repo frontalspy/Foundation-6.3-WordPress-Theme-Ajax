@@ -120,7 +120,6 @@ function customTest () {
     $slug = $_POST['post_slug'];
     $postID = get_page_by_path($slug, OBJECT, 'post')->ID;
     $pageID = get_page_by_path($slug, OBJECT, 'page')->ID;
-    echo $slug;
     if($pageID) {
       $page = get_page_template_slug( $pageID );
       $posts = new WP_Query( array('posts_per_page' => 1, "name" => $slug, "post_type" => 'page'));
