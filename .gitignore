@@ -8,8 +8,7 @@ gulpfile.js
 .jshintrc
 .travis.yml
 
-CHANGELOG.md
-CONTRIBUTING.md
+*.md
 /*.json
 
 # Compiled source #
