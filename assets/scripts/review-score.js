@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) { 
   function animateProgress() {
-    $('.progress-meter').each(function(e, elem) {
+    $('.review-scores .progress-meter').each(function(e, elem) {
       if (Utils.isElementInView(elem, false)) {
         $(elem).delay(e * 100).animate({width:'100%'}, 1000);
       }

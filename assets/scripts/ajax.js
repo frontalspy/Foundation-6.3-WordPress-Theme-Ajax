@@ -6,12 +6,14 @@ jQuery(document).ready(function($) {
       document.title = "Test Website";
     }
   }
+  
   if(Modernizr.history) {
     $(document).on('click','*:not(#wpadminbar) a',  function(e) {
       var url = $(this).attr('href');
       var regx = '(?:.+\/)([^#?]+)';
       var post_slug = url.match(regx)[1].split('/')[0];
       var paged = $(this).data('paged');
+      $('#loader .progress-meter').animate({width:'100%'}, 2000);
       if($(this)[0].host === window.location.host && post_slug !== '') {
         e.preventDefault();
         $.ajax({
@@ -28,16 +30,20 @@ jQuery(document).ready(function($) {
             $('main.main').html(data);
             window.history.pushState(data, "Title", url);
             checkTitle($('h1'));
+            $('#loader .progress-meter').animate({width:'100%'}).finish().fadeOut('fast', function() {
+              $(this).css({width:'0%'});
+            }).fadeIn('fast');
         });
       }
     });
+    
     $(document).on('submit','form.site-search',  function(e) {
       var search = $(this).find('input').val();
       var url = $(this).attr('action')  + 'search/' + search;
       e.preventDefault();
       $.ajax({
         url: ajaxadmin.ajaxurl,
-        type: 'get',
+        type: 'GET',
         data: {
           's': search,
           'action': 'ajax_search'

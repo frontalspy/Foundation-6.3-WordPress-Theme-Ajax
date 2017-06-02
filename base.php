@@ -34,5 +34,10 @@ use Roots\Sage\Wrapper;
       get_template_part('templates/footer');
       wp_footer();
     ?>
+    <div id="loader">
+      <div class="progress transparent" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuetext="0 percent" aria-valuemax="100">
+          <div class="progress-meter primary-background" style="max-width:100%"></div>
+      </div>
+    </div>
   </body>
 </html>
