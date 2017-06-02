@@ -122,10 +122,15 @@ function assets()
     wp_enqueue_script('modernizr', Assets\asset_path('scripts/modernizr.js'), null, true);
 
     wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
-   
-    wp_localize_script( 'ajax-admin', 'ajaxadmin', array(
+  
+    wp_register_script( 'ajaxadmin', Assets\asset_path('scripts/ajax.js'));
+
+    wp_localize_script( 'ajaxadmin', 'ajaxadmin', array(
       'ajaxurl' => admin_url( 'admin-ajax.php' )
     ));
+
+    wp_enqueue_script( 'ajaxadmin', Assets\asset_path('scripts/ajax.js'), ['jquery'], null, true );
+   
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 

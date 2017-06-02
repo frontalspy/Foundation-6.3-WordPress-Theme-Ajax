@@ -81,41 +81,35 @@ function responsiveImage($image_id,$image_size,$max_width){
 }
 
 
-function pagination($pages = '', $range = 2)
-{  
-     $showitems = ($range * 2)+1;  
+function pagination($pages = '', $range = 2) {  
+  global $paged;
+  $showitems = ($range * 2)+1;  
+  $_SERVER['REQUEST_URI'] = 'page/' . $paged . '/';
+  if(empty($paged)) $paged = 1;
 
-     global $paged;
-     if(empty($paged)) $paged = 1;
+  if($pages == '') {
+    global $wp_query;
+    $pages = $wp_query->max_num_pages;
+    if(!$pages) {
+      $pages = 1;
+    }
+  }   
 
-     if($pages == '')
-     {
-         global $wp_query;
-         $pages = $wp_query->max_num_pages;
-         if(!$pages)
-         {
-             $pages = 1;
-         }
-     }   
+  if(1 != $pages) {
+    echo "<ul class='pagination'>";
+    if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<li><a href='".get_pagenum_link(1)."'>&laquo;</a></li>";
+    if($paged > 1 && $showitems < $pages) echo "<li><a href='".get_pagenum_link($paged - 1)."'>&lsaquo;</a></li>";
 
-     if(1 != $pages)
-     {
-         echo "<ul class='pagination'>";
-         if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<li><a href='".get_pagenum_link(1)."'>&laquo;</a></li>";
-         if($paged > 1 && $showitems < $pages) echo "<li><a href='".get_pagenum_link($paged - 1)."'>&lsaquo;</a></li>";
+    for ($i=1; $i <= $pages; $i++) {
+      if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems )) {
+          echo ($paged == $i)? "<span class='current'>".$i."</span>":"<li><a href='".get_pagenum_link($i)."' class='inactive' data-paged='". $i ."'>".$i."</a></li>";
+      }
+    }
 
-         for ($i=1; $i <= $pages; $i++)
-         {
-             if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
-             {
-                 echo ($paged == $i)? "<span class='current'>".$i."</span>":"<li><a href='".get_pagenum_link($i)."' class='inactive' >".$i."</a></li>";
-             }
-         }
-
-         if ($paged < $pages && $showitems < $pages) echo "<li><a href='".get_pagenum_link($paged + 1)."'>&rsaquo;</a></li>";  
-         if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<li><a href='".get_pagenum_link($pages)."'>&raquo;</a></li>";
-         echo "</ul>\n";
-     }
+    if ($paged < $pages && $showitems < $pages) echo "<li><a href='".get_pagenum_link($paged + 1)."'>&rsaquo;</a></li>";  
+    if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<li><a href='".get_pagenum_link($pages)."'>&raquo;</a></li>";
+    echo "</ul>\n";
+  }
 }
 
 add_action( 'wp_ajax_get_post_details', 'customTest' );
@@ -126,13 +120,19 @@ function customTest () {
     $slug = $_POST['post_slug'];
     $postID = get_page_by_path($slug, OBJECT, 'post')->ID;
     $pageID = get_page_by_path($slug, OBJECT, 'page')->ID;
+    echo $slug;
     if($pageID) {
       $page = get_page_template_slug( $pageID );
       $posts = new WP_Query( array('posts_per_page' => 1, "name" => $slug, "post_type" => 'page'));
       $GLOBALS['wp_query'] = $posts;
       ($page) ? get_template_part(substr($page, 0, -4)) : get_template_part('page');
-    } else if($slug == substr(get_home_url(null, '', 'relative'), 1)) {
-      $posts = new WP_Query( array('posts_per_page' => 12) );
+    } else if($slug == substr(get_home_url(null, '', 'relative'), 1) || is_numeric($slug)) {
+      if(isset($_POST['paged']) && !empty($_POST['paged'])) {
+        $posts = new WP_Query( array('posts_per_page' => 12, 'paged' => $_POST['paged']) );
+        $GLOBALS['paged']= $_POST['paged'];
+      } else {
+        $posts = new WP_Query( array('posts_per_page' => 12) );
+      }
       $GLOBALS['wp_query'] = $posts;
       get_template_part('index');
     } else if ($postID){
@@ -142,6 +142,19 @@ function customTest () {
     }
     wp_reset_query();
     wp_reset_postdata();
+  }
+  wp_die();
+}
+
+add_action( 'wp_ajax_ajax_search', 'ajaxSearch' );
+add_action( 'wp_ajax_nopriv_ajax_search', 'ajaxSearch' );
+
+function ajaxSearch () {
+  if(isset($_GET['s']) && !empty($_GET['s'])){
+    $posts = new WP_Query( array('posts_per_page' => 12, "s" => $_GET['s'], ));
+    $GLOBALS['wp_query'] = $posts;
+    var_dump(get_post_type());
+    get_template_part('index');
   }
   wp_die();
 }

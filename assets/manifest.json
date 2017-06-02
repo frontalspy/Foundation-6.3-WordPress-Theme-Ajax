@@ -25,6 +25,11 @@
         "scripts/review-score.js"
       ]
     },
+    "ajax.js": {
+      "files": [
+        "scripts/ajax.js"
+      ]
+    },
     "mal-connect.js": {
       "files": [
         "scripts/mal-connect.js"
