@@ -12,7 +12,7 @@ jQuery(document).ready(function($) {
       var regx = '(?:.+\/)([^#?]+)';
       var post_slug = url.match(regx)[1].split('/')[0];
       var paged = $(this).data('paged');
-      if($(this)[0].host === window.location.host || post_slug !== '') {
+      if($(this)[0].host === window.location.host && post_slug !== '') {
         e.preventDefault();
         $.ajax({
           url: ajaxadmin.ajaxurl,
