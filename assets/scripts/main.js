@@ -140,34 +140,4 @@ jQuery(document).ready(function($) {
     });
   };
   
-  if(Modernizr.history) {
-    $(document).on('click','*:not(#wpadminbar) a',  function(e) {
-      var url = $(this).attr('href');
-      var regx = '(?:.+\/)([^#?]+)';
-      var post_slug = url.match(regx)[1].split('/')[0];
-      if($(this)[0].host === window.location.host && post_slug !== '') {
-        e.preventDefault();
-        $.ajax({
-          url: WP_Web_Push.register_url,
-          type: 'POST',
-          data: {
-            'post_slug': post_slug,
-            'action': 'get_post_details'
-          }
-        })
-        .done(function(data) {
-            $('main.main').html(data);
-            window.history.pushState(data, "Title", url);
-            document.title = $('h1').html();
-        });
-      }
-    });
-    $(window).on('popstate', function(e) {
-      var state = e.originalEvent.state;
-      if(state !== null) {
-        $('main.main').html(state);
-        document.title = $('h1').html();
-      }
-    });
-  }
  });
