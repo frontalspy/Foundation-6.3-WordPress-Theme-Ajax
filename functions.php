@@ -75,7 +75,7 @@ function responsiveImage($image_id,$image_size,$max_width){
     // set the srcset with various image sizes
     $image_srcset = wp_get_attachment_image_srcset( $image_id, $image_size );
     // generate the markup for the responsive image
-	$resp = 'data-original="'.$image_src.'" srcset="'.$image_srcset.'" sizes="(max-width: '.$max_width.') 100vw, '.$max_width.'"';
+	$resp = 'src="'.$image_src.'" srcset="'.$image_srcset.'" sizes="(max-width: '.$max_width.') 100vw, '.$max_width.'"';
   }
   return $resp;
 }
@@ -116,8 +116,8 @@ add_action( 'wp_ajax_get_post_details', 'customTest' );
 add_action( 'wp_ajax_nopriv_get_post_details', 'customTest' );
 
 function customTest () {
-  if(isset($_POST['post_slug']) && !empty($_POST['post_slug'])){
-    $slug = $_POST['post_slug'];
+  if(isset($_GET['post_slug']) && !empty($_GET['post_slug'])){
+    $slug = $_GET['post_slug'];
     $postID = get_page_by_path($slug, OBJECT, 'post')->ID;
     $pageID = get_page_by_path($slug, OBJECT, 'page')->ID;
     if($pageID) {
@@ -126,9 +126,9 @@ function customTest () {
       $GLOBALS['wp_query'] = $posts;
       ($page) ? get_template_part(substr($page, 0, -4)) : get_template_part('page');
     } else if($slug == substr(get_home_url(null, '', 'relative'), 1) || is_numeric($slug)) {
-      if(isset($_POST['paged']) && !empty($_POST['paged'])) {
-        $posts = new WP_Query( array('posts_per_page' => 12, 'paged' => $_POST['paged']) );
-        $GLOBALS['paged']= $_POST['paged'];
+      if(isset($_GET['paged']) && !empty($_GET['paged'])) {
+        $posts = new WP_Query( array('posts_per_page' => 12, 'paged' => $_GET['paged']) );
+        $GLOBALS['paged']= $_GET['paged'];
       } else {
         $posts = new WP_Query( array('posts_per_page' => 12) );
       }

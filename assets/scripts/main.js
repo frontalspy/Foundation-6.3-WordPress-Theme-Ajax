@@ -82,6 +82,8 @@
 })(jQuery); // Fully reference jQuery after this point.
 
 var timer,resizeTimer;
+
+// Utility function to check if an element is in view
 function Utils() {}
 
   Utils.prototype = {
@@ -104,7 +106,11 @@ function Utils() {}
   var Utils = new Utils();
 
 jQuery(document).ready(function($) {
+  
+  // Display the SVG animation
   $('svg.animation').css('visibility', 'visible');
+  
+  // Hamburger menu toggling the menu
   $('.hamburger').click(function() {
     if ($(this).hasClass('is-active')) {
       $(this).removeClass('is-active');
@@ -113,13 +119,14 @@ jQuery(document).ready(function($) {
     }
     $(this).next().find('#top-menu').slideToggle();
   });
-
+  
+  //Disable right clicking on video
   $("video").bind("contextmenu",function(){
     return false;
   });
 
-  $('img').lazyload();
-
+  // Use the anime.js library to animate the SVG in a loop
+  // Documentation: http://animejs.com/documentation/
   var finishedPromise = anime({
     targets: 'svg.animation path',
     strokeDashoffset: [anime.setDashoffset, 0],
@@ -130,6 +137,7 @@ jQuery(document).ready(function($) {
     loop: true
   });
 
+  // When the previously defined anime.js variable updates
   finishedPromise.update = function(anim) {
     $('svg.animation path').each(function (n, elem)  {
       if($(elem).css('stroke-dashoffset') === '0px') {
