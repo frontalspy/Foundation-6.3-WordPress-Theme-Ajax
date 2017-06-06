@@ -127,7 +127,9 @@ function assets()
       wp_register_script( 'ajaxadmin', Assets\asset_path('scripts/ajax.js'));
       
       wp_localize_script( 'ajaxadmin', 'ajaxadmin', array(
-        'ajaxurl' => admin_url( 'admin-ajax.php' )
+        'ajaxurl' => admin_url( 'admin-ajax.php' ),
+        'adminurl' => admin_url(),
+        'nonce' => wp_create_nonce('get-nonce')
       ));
       
       wp_enqueue_script( 'ajaxadmin', Assets\asset_path('scripts/ajax.js'), ['jquery'], null, true );

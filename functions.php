@@ -80,7 +80,8 @@ function responsiveImage($image_id,$image_size,$max_width){
   return $resp;
 }
 
-
+// Using a custom pagination function for greater control
+// @link http://sgwordpress.com/teaches/how-to-add-wordpress-pagination-without-a-plugin/
 function pagination($pages = '', $range = 2) {  
   global $paged;
   $showitems = ($range * 2)+1;  
@@ -112,10 +113,15 @@ function pagination($pages = '', $range = 2) {
   }
 }
 
+// Add action to call customTest on admin-ajax when logged in and not logged in
 add_action( 'wp_ajax_get_post_details', 'customTest' );
 add_action( 'wp_ajax_nopriv_get_post_details', 'customTest' );
 
+// Function to get the right content from ajax call
+use Roots\Sage\Setup;
+use Roots\Sage\Wrapper;
 function customTest () {
+  check_ajax_referer( 'get-nonce', 'nonce' );
   if(isset($_GET['post_slug']) && !empty($_GET['post_slug'])){
     $slug = $_GET['post_slug'];
     $postID = get_page_by_path($slug, OBJECT, 'post')->ID;
@@ -124,7 +130,7 @@ function customTest () {
       $page = get_page_template_slug( $pageID );
       $posts = new WP_Query( array('posts_per_page' => 1, "name" => $slug, "post_type" => 'page'));
       $GLOBALS['wp_query'] = $posts;
-      ($page) ? get_template_part(substr($page, 0, -4)) : get_template_part('page');
+      //($page) ? get_template_part(substr($page, 0, -4)) : get_template_part('page');
     } else if($slug == substr(get_home_url(null, '', 'relative'), 1) || is_numeric($slug)) {
       if(isset($_GET['paged']) && !empty($_GET['paged'])) {
         $posts = new WP_Query( array('posts_per_page' => 12, 'paged' => $_GET['paged']) );
@@ -133,21 +139,26 @@ function customTest () {
         $posts = new WP_Query( array('posts_per_page' => 12) );
       }
       $GLOBALS['wp_query'] = $posts;
-      get_template_part('index');
+      //get_template_part('index');
     } else if ($postID){
       $posts = new WP_Query( array('posts_per_page' => 1, "name" => $slug) );
       $GLOBALS['wp_query'] = $posts;
-      get_template_part('single');
+      //get_template_part('single');
     }
+    var_dump(get_page_template_slug($postID));
+    var_dump(get_page_template_slug($pageID));
     wp_reset_query();
     wp_reset_postdata();
   }
   wp_die();
 }
 
+// Add action to call ajaxSearch on admin-ajax when logged in and not logged in
+
 add_action( 'wp_ajax_ajax_search', 'ajaxSearch' );
 add_action( 'wp_ajax_nopriv_ajax_search', 'ajaxSearch' );
 
+// Function to get the searchform from ajax call
 function ajaxSearch () {
   if(isset($_GET['s']) && !empty($_GET['s'])){
     $posts = new WP_Query( array('posts_per_page' => 12, "s" => $_GET['s'], ));
