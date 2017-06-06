@@ -20,7 +20,7 @@ use Roots\Sage\Wrapper;
     <div class="wrap container" role="document">
       <div class="content row" id="content">
         <main class="main column small-12 medium-8 large-9">
-            <?php require Wrapper\template_path(); ?>
+            <?php include Wrapper\template_path(); ?>
         </main><!-- /.main -->
         <?php if (Setup\display_sidebar()) : ?>
           <aside class="sidebar small-12 medium-4 large-3 column">

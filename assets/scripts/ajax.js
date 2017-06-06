@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
     if($(elem).html()) {
       document.title = $('h1').html();
     } else {
-      document.title = "Test Website";
+      document.title = $('title').html();
     }
   }
   
@@ -29,41 +29,48 @@ jQuery(document).ready(function($) {
       var url = $(this).attr('href');
       
       // Regex to grab only the post slug, after the /
-      var regx = '(?:.+\/)([^#?]+)';
-      var post_slug = url.match(regx)[1].split('/')[0];
+      //var regx = '(?:.+\/)([^#?]+)';
+      //var post_slug = url.match(regx)[1].split('/')[0];
       
       // If the link is from pagination
-      var paged = $(this).data('paged');
+      //var paged = $(this).data('paged');
       
       // Only Ajax load if the link is internal
-      if($(this)[0].host === window.location.host && post_slug !== '') {
+      //if($(this)[0].host === window.location.host && post_slug !== '' && url.indexOf('wp-admin') < 0) {
+      if($(this)[0].host === window.location.host && url.indexOf('wp-admin') < 0) {
         
         // Prevent the default click acion
         e.preventDefault();
         $.ajax({
           // Get the admin-ajax.php location placed in the document
           // Refer to lib/setup
-          url: ajaxadmin.ajaxurl,
+          //url: ajaxadmin.ajaxurl,
+          url: url,
           type: 'GET',
+          dataType: 'html',
           data: {
-            // Pass post_slug and paged to the function get_post_details
-            'post_slug': post_slug,
-            'paged' : paged,
-            'action': 'get_post_details'
+//            // Pass post_slug and paged to the function get_post_details
+//            'post_slug': post_slug,
+//            'paged' : paged,
+//            'action': 'get_post_details',
+//            'nonce' : ajaxadmin.nonce
+          },
+          beforeSend: function(){
+              // When the ajax returns a 200 start the loading animation
+              $('#loader .progress-meter').animate({width:'90%'}, 3000);
           }
         })
         .done(function(data) {
-          // When the ajax returns a 200 start the loading animation
-          $('#loader .progress-meter').animate({width:'90%'}, 3000);
           
           // Replace the content of the main element with the main from the get_post_details
-          $('main.main').html(data);
+          //$('main.main').html(data);
+          $('main.main').html($(data).find('main.main').html());
           
           // Scroll the window to the top of the page
           $(window).scrollTop(0);
           
           // Using the history api, set the current state and url to the new page
-          window.history.pushState(data, "Title", url);
+          window.history.pushState($(data).find('main.main').html(), "Title", url);
           
           // Change the title
           checkTitle($('h1'));
