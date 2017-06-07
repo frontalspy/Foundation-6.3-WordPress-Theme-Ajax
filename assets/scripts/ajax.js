@@ -93,6 +93,7 @@ jQuery(document).ready(function($) {
       $.ajax({
         url: ajaxadmin.ajaxurl,
         type: 'GET',
+        dataType: 'html',
         data: {
           // Pass s (required by WordPress) to the function ajax_search
           // 
