@@ -29,7 +29,7 @@ jQuery(document).ready(function($) {
       var url = $(this).attr('href');
       
       // Only Ajax load if the link is internal
-      if($(this)[0].host === window.location.host && url.indexOf('wp-admin') < 0) {
+      if($(this)[0].host === window.location.host && url.indexOf('wp-admin') < 0 && $(this).attr('target') !== '_blank') {
         
         // Prevent the default click acion
         e.preventDefault();
@@ -74,8 +74,9 @@ jQuery(document).ready(function($) {
           }).fadeIn('fast');
           
           // If the page is a review, load and execute the review-scores script
+          // Since gulp --production generates a unique id, use regex to find review-score.js
           if($('.review-scores').length) {
-            $.cachedScript(window.location.origin + '/tester/wp-content/themes/Foundation-sage/dist/scripts/review-score.js');
+            $.cachedScript($("script[src*='review']").attr('src'));
           }
         });
       }
@@ -103,7 +104,6 @@ jQuery(document).ready(function($) {
         }
       })
       .done(function(data) {
-        console.log(data);
         // Replace the content of the main element with the main from the ajax_search
         $('main.main').html(data);
         

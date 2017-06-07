@@ -116,10 +116,10 @@ function assets()
     }
   
     if(is_single() && get_field('post_type', get_the_ID()) == 'review')  {
-      wp_enqueue_script('reviews', Assets\asset_path('scripts/review-score.js'), ['jquery'], null, true);
+      wp_enqueue_script('reviews', Assets\asset_path('scripts/review-score.js'), ['sage/js'], null, true);
     }
   
-    wp_enqueue_script('modernizr', Assets\asset_path('scripts/modernizr.js'), null, true);
+    wp_enqueue_script('modernizr', Assets\asset_path('scripts/modernizr.js'), null, false);
 
     wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
   

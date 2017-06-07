@@ -123,7 +123,6 @@ function ajaxSearch () {
   if(isset($_GET['s']) && !empty($_GET['s'])){
     $posts = new WP_Query( array('posts_per_page' => 12, "s" => $_GET['s'], ));
     $GLOBALS['wp_query'] = $posts;
-    var_dump(get_post_type());
     get_template_part('index');
   }
   wp_die();
