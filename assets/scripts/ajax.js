@@ -25,46 +25,36 @@ jQuery(document).ready(function($) {
     
     // Ajax load pages on all inks other than the WPAdmin Bar
     $(document).on('click','*:not(#wpadminbar) a',  function(e) {
-      // Get the URL from the href attribute
+      // Get the URL from the href attribute for the ajax call
       var url = $(this).attr('href');
       
-      // Regex to grab only the post slug, after the /
-      //var regx = '(?:.+\/)([^#?]+)';
-      //var post_slug = url.match(regx)[1].split('/')[0];
-      
-      // If the link is from pagination
-      //var paged = $(this).data('paged');
-      
       // Only Ajax load if the link is internal
-      //if($(this)[0].host === window.location.host && post_slug !== '' && url.indexOf('wp-admin') < 0) {
       if($(this)[0].host === window.location.host && url.indexOf('wp-admin') < 0) {
         
         // Prevent the default click acion
         e.preventDefault();
         $.ajax({
-          // Get the admin-ajax.php location placed in the document
+          // Get the nonce identifier ID location placed in the document
           // Refer to lib/setup
-          //url: ajaxadmin.ajaxurl,
           url: url,
           type: 'GET',
           dataType: 'html',
           data: {
-//            // Pass post_slug and paged to the function get_post_details
-//            'post_slug': post_slug,
-//            'paged' : paged,
-//            'action': 'get_post_details',
-//            'nonce' : ajaxadmin.nonce
+            // Set the nonce as a vairable as a check on the base.php
+            'nonce' : ajaxadmin.nonce
           },
           beforeSend: function(){
-              // When the ajax returns a 200 start the loading animation
-              $('#loader .progress-meter').animate({width:'90%'}, 3000);
+              // When the ajax call begins, start the loading bar animation
+              $('#loader .progress-meter').animate({width:'40%'}, 2000);
           }
         })
         .done(function(data) {
+          // When the ajax returns a 200 progress the animation          
+          $('#loader .progress-meter').animate({width:'75%'}, 3000);
           
           // Replace the content of the main element with the main from the get_post_details
           //$('main.main').html(data);
-          $('main.main').html($(data).find('main.main').html());
+          $('main.main').html(data);
           
           // Scroll the window to the top of the page
           $(window).scrollTop(0);
@@ -74,6 +64,9 @@ jQuery(document).ready(function($) {
           
           // Change the title
           checkTitle($('h1'));
+          
+          // Re-initialise Foundation Equalizer for equal height
+          Foundation.reInit($('main.main'));
           
           // Finish the loading animation once the ajax has finished loading
           $('#loader .progress-meter').animate({width:'100%'}).finish().fadeOut('fast', function() {
@@ -102,12 +95,14 @@ jQuery(document).ready(function($) {
         type: 'GET',
         data: {
           // Pass s (required by WordPress) to the function ajax_search
+          // 
           's': search,
+          'nonce' : ajaxadmin.nonce,
           'action': 'ajax_search'
         }
       })
       .done(function(data) {
-        
+        console.log(data);
         // Replace the content of the main element with the main from the ajax_search
         $('main.main').html(data);
         
@@ -116,6 +111,9 @@ jQuery(document).ready(function($) {
         
         // Check Title
         checkTitle($('h1'));
+        
+        // Re-initialise Foundation Equalizer for equal height
+        Foundation.reInit($('main.main'));
       });
     });
     
