@@ -4,6 +4,7 @@
 use Roots\Sage\Setup;
 use Roots\Sage\Wrapper;
 ?>
+<?php if(!check_ajax_referer( 'get-nonce', 'nonce' , false)):?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
     <?php get_template_part('templates/head'); ?>
@@ -19,8 +20,10 @@ use Roots\Sage\Wrapper;
     ?>
     <div class="wrap container" role="document">
       <div class="content row" id="content">
-        <main class="main column small-12 medium-8 large-9">
+        <main class="main column small-12 medium-8 large-9" data-equalizer data-equalize-by-row="true">
+         <?php endif;?>
             <?php include Wrapper\template_path(); ?>
+        <?php if(!check_ajax_referer( 'get-nonce', 'nonce' , false)):?>
         </main><!-- /.main -->
         <?php if (Setup\display_sidebar()) : ?>
           <aside class="sidebar small-12 medium-4 large-3 column">
@@ -41,3 +44,4 @@ use Roots\Sage\Wrapper;
     </div>
   </body>
 </html>
+<?php endif;?>
