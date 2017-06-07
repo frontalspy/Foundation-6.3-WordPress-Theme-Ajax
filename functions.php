@@ -38,7 +38,6 @@ function jQueryVersion() {
 
 add_action('init', 'jQueryVersion');
 
-
 // Add async to jquery and defer all other scripts to prevent
 // render blocking.
 function nonRenderBlockScript($tag, $handle) {
@@ -128,4 +127,14 @@ function ajaxSearch () {
     get_template_part('index');
   }
   wp_die();
+}
+
+// The Search function on the website only searches through posts
+add_filter('pre_get_posts','mySearchFilter');
+
+function mySearchFilter($query) {
+  if ($query->is_search) {
+    $query->set('post_type', 'post');
+  }
+  return $query;
 }

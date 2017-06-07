@@ -128,7 +128,6 @@ function assets()
       
       wp_localize_script( 'ajaxadmin', 'ajaxadmin', array(
         'ajaxurl' => admin_url( 'admin-ajax.php' ),
-        'adminurl' => admin_url(),
         'nonce' => wp_create_nonce('get-nonce')
       ));
       
