@@ -107,9 +107,6 @@ function Utils() {}
 
 jQuery(document).ready(function($) {
   
-  // Display the SVG animation
-  $('svg.animation').css('visibility', 'visible');
-  
   // Hamburger menu toggling the menu
   $('.hamburger').click(function() {
     if ($(this).hasClass('is-active')) {
@@ -119,33 +116,5 @@ jQuery(document).ready(function($) {
     }
     $(this).next().find('#top-menu').slideToggle();
   });
-  
-  //Disable right clicking on video
-  $("video").bind("contextmenu",function(){
-    return false;
-  });
-
-  // Use the anime.js library to animate the SVG in a loop
-  // Documentation: http://animejs.com/documentation/
-  var finishedPromise = anime({
-    targets: 'svg.animation path',
-    strokeDashoffset: [anime.setDashoffset, 0],
-    easing: 'easeInOutSine',
-    duration: 3500,
-    delay: function(el, i) { return i * 150; },
-    direction: 'alternate',
-    loop: true
-  });
-
-  // When the previously defined anime.js variable updates
-  finishedPromise.update = function(anim) {
-    $('svg.animation path').each(function (n, elem)  {
-      if($(elem).css('stroke-dashoffset') === '0px') {
-        $(elem).css('animation', 'fill-in 0.75s forwards');
-      } else {
-        $(elem).css('animation', 'fill-out 2s forwards');
-      }
-    });
-  };
   
  });

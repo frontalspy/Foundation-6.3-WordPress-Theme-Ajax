@@ -49,6 +49,8 @@ jQuery(document).ready(function($) {
           }
         })
         .done(function(data) {
+          var regx = '(?:.+\/)([^#?]+)';
+          var post_slug = url.match(regx)[1].split('/')[0];
           // When the ajax returns a 200 progress the animation          
           $('#loader .progress-meter').animate({width:'75%'}, 3000);
           
@@ -60,7 +62,7 @@ jQuery(document).ready(function($) {
           $(window).scrollTop(0);
           
           // Using the history api, set the current state and url to the new page
-          window.history.pushState($(data).find('main.main').html(), "Title", url);
+          window.history.pushState(data, "Title", url);
           
           // Change the title
           checkTitle($('h1'));
@@ -73,10 +75,37 @@ jQuery(document).ready(function($) {
             $(this).css({width:'0%'});
           }).fadeIn('fast');
           
+          if(('#wpadminbar').length) {
+            $.ajax({
+                  type: 'GET',
+                  dataType: "text",
+                  url: ajaxadmin.ajaxurl,
+                  data: {
+                    'post_slug': post_slug,
+                    'action': 'get_admin_bar'
+                  }
+            }).done(function(data) {
+              if($('#wpadminbar #wp-admin-bar-edit').length) {
+                $('#wpadminbar #wp-admin-bar-edit').html(data);
+              } else {
+                $('#wpadminbar .ab-top-menu').append('<li id="wp-admin-bar-edit">' + data + '</li>');
+              }
+            });
+          }
           // If the page is a review, load and execute the review-scores script
           // Since gulp --production generates a unique id, use regex to find review-score.js
           if($('.review-scores').length) {
-            $.cachedScript($("script[src*='review']").attr('src'));
+            return $.ajax({
+                dataType: "text",
+                type: 'GET',
+                url: ajaxadmin.ajaxurl,
+                data: {
+                  'action': 'get_script',
+                  'nonce' : ajaxadmin.nonce
+                }
+            }).done(function(data) {
+              $.cachedScript(data);
+            });
           }
         });
       }
