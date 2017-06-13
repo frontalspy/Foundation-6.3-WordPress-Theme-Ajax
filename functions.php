@@ -128,6 +128,33 @@ function ajaxSearch () {
   wp_die();
 }
 
+// Add action to call ajaxSearch on admin-ajax when logged in and not logged in
+use Roots\Sage\Assets;
+add_action( 'wp_ajax_get_script', 'getScript' );
+add_action( 'wp_ajax_nopriv_get_script', 'getScript' );
+function getScript() {
+  check_ajax_referer( 'get-nonce', 'nonce');
+  echo Assets\asset_path('scripts/review-score.js');
+  wp_die();
+}
+
+add_action( 'wp_ajax_get_admin_bar', 'getAdminBar' );
+add_action( 'wp_ajax_nopriv_get_admin_bar', 'getAdminBar' );
+function getAdminBar() {
+  if(isset($_GET['post_slug']) && !empty($_GET['post_slug'])){
+    $slug = $_GET['post_slug'];
+    $postID = get_page_by_path($slug, OBJECT, 'post')->ID;
+    $pageID = get_page_by_path($slug, OBJECT, 'page')->ID;
+    echo '<a class="ab-item" href="';
+    echo home_url();
+    echo '/wp-admin/post.php?post=';
+    echo $postID ? $postID : $pageID;
+    echo '&action=edit';
+    echo '">Edit Post</a>';
+  }
+  wp_die();
+}
+
 // The Search function on the website only searches through posts
 add_filter('pre_get_posts','mySearchFilter');
 
