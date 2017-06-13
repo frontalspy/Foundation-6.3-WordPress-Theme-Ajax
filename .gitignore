@@ -2,15 +2,7 @@ bower_components/
 node_modules/
 npm-debug.log
 dist/
-gulpfile.js
-.bowerrc
-.editorconfig
-.jscsrc
-.jshintrc
-.travis.yml
 
-*.md
-/*.json
 
 # Compiled source #
 ###################
