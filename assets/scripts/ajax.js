@@ -90,9 +90,10 @@ jQuery(document).ready(function($) {
               } else {
                 $('#wpadminbar .ab-top-menu').append('<li id="wp-admin-bar-edit">' + data + '</li>');
               }
-            });
+             });
           }
-        }
+        });
+      }
     });
     
     // Ajax loading for search submit
