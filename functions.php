@@ -50,67 +50,6 @@ function nonRenderBlockScript($tag, $handle) {
 
 add_filter('script_loader_tag', 'nonRenderBlockScript', 10, 2);
 
-set_post_thumbnail_size( 380, 214, array( 'center', 'center') );
-
-//add a options page in the admin panel
-if (function_exists('acf_add_options_page') ) {
-	acf_add_options_page((array(
-      'page_title' => 'Website Options',
-      'menu_title' => 'Website Options',
-      'menu_slug' => 'website_options',
-      'parent_slug' => '',
-      'position' => 'false',
-      'redirect' => 'false',    
-    )));
-}
-// Return this for ACF Images
-function responsiveImage($image_id,$image_size,$max_width){
-  $resp = "";
-  // check the image ID is not blank
-  if($image_id != '') {
-    // set the default src image size
-	$image_src = wp_get_attachment_image_url( $image_id, $image_size );
-    
-    // set the srcset with various image sizes
-    $image_srcset = wp_get_attachment_image_srcset( $image_id, $image_size );
-    // generate the markup for the responsive image
-	$resp = 'src="'.$image_src.'" srcset="'.$image_srcset.'" sizes="(max-width: '.$max_width.') 100vw, '.$max_width.'"';
-  }
-  return $resp;
-}
-
-// Using a custom pagination function for greater control
-// @link http://sgwordpress.com/teaches/how-to-add-wordpress-pagination-without-a-plugin/
-function pagination($pages = '', $range = 2) {  
-  global $paged;
-  $showitems = ($range * 2)+1;  
-  $_SERVER['REQUEST_URI'] = 'page/' . $paged . '/';
-  if(empty($paged)) $paged = 1;
-
-  if($pages == '') {
-    global $wp_query;
-    $pages = $wp_query->max_num_pages;
-    if(!$pages) {
-      $pages = 1;
-    }
-  }   
-
-  if(1 != $pages) {
-    echo "<ul class='pagination'>";
-    if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<li><a href='".get_pagenum_link(1)."'>&laquo;</a></li>";
-    if($paged > 1 && $showitems < $pages) echo "<li><a href='".get_pagenum_link($paged - 1)."'>&lsaquo;</a></li>";
-
-    for ($i=1; $i <= $pages; $i++) {
-      if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems )) {
-          echo ($paged == $i)? "<span class='current'>".$i."</span>":"<li><a href='".get_pagenum_link($i)."' class='inactive' data-paged='". $i ."'>".$i."</a></li>";
-      }
-    }
-
-    if ($paged < $pages && $showitems < $pages) echo "<li><a href='".get_pagenum_link($paged + 1)."'>&rsaquo;</a></li>";  
-    if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<li><a href='".get_pagenum_link($pages)."'>&raquo;</a></li>";
-    echo "</ul>\n";
-  }
-}
 
 // Add action to call ajaxSearch on admin-ajax when logged in and not logged in
 
