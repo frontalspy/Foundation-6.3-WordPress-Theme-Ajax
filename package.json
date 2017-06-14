@@ -1,15 +1,15 @@
 {
-  "name": "Rotapix-Sage",
-  "version": "8.4.0R",
-  "author": "Brendon <websupport@rotapix.com>",
-  "homepage": "https://ww.rotapix.com",
+  "name": "Foundation-6.3-WordPress-Ajax",
+  "version": "8.4.0",
+  "author": "Brendon <frontalspy@gmail.com>",
+  "homepage": "https://github.com/frontalspy/Foundation-6.3-WordPress-Theme-Ajax,
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://rotapixtesting.com/git/theme"
+    "url": "git//github.com/frontalspy/Foundation-6.3-WordPress-Theme-Ajax"
   },
   "bugs": {
-    "url": "https://github.com/roots/sage/issues"
+    "url": "https://github.com/frontalspy/Foundation-6.3-WordPress-Theme-Ajax/issues"
   },
   "licenses": [
     {
