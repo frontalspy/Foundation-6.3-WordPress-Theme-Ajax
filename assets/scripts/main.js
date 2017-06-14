@@ -22,11 +22,11 @@
 
                 $(document).foundation(); // Foundation JavaScript
 
-            },
+             },
             finalize: function() {
                 // JavaScript to be fired on all pages, after page specific JS is fired
-            }
-        },
+             }
+         },
         // Home page
         'home': {
             init: function() {
@@ -34,15 +34,15 @@
             },
             finalize: function() {
                 // JavaScript to be fired on the home page, after the init JS
-            }
-        },
+             }
+         },
         // About us page, note the change from about-us to about_us.
         'about_us': {
             init: function() {
                 // JavaScript to be fired on the about us page
-            }
-        }
-    };
+             }
+         }
+     };
 
     // The routing fires all common scripts, followed by the page specific scripts.
     // Add additional events for more control over timing e.g. a finalize event
@@ -57,8 +57,8 @@
 
             if (fire) {
                 namespace[func][funcname](args);
-            }
-        },
+             }
+         },
         loadEvents: function() {
             // Fire common init JS
             UTIL.fire('common');
@@ -68,8 +68,8 @@
                 document.body.className.replace(/-/g, '_').split(/\s+/), function(i, classnm) {
                     UTIL.fire(classnm);
                     UTIL.fire(classnm, 'finalize');
-                }
-            );
+                 }
+             );
 
             // Fire common finalize JS
             UTIL.fire('common', 'finalize');
@@ -79,17 +79,18 @@
     // Load Events
     $(document).ready(UTIL.loadEvents);
 
-})(jQuery); // Fully reference jQuery after this point.
+ })(jQuery); // Fully reference jQuery after this point.
 
-var timer,resizeTimer;
+var timer;
+var resizeTimer;
 
 // Utility function to check if an element is in view
 function Utils() {}
 
-  Utils.prototype = {
+ Utils.prototype = {
     // function to check if element is in view of window
     constructor: Utils,
-    isElementInView: function (element, fullyInView) {
+    isElementInView: function(element, fullyInView) {
       var pageTop = jQuery(window).scrollTop();
       var pageBottom = pageTop + jQuery(window).height();
       var elementTop = jQuery(element).offset().top;
@@ -103,7 +104,7 @@ function Utils() {}
     }
   };
 
-  var Utils = new Utils();
+ var Utils = new Utils();
 
 jQuery(document).ready(function($) {
 
@@ -117,4 +118,4 @@ jQuery(document).ready(function($) {
     $(this).next().find('#top-menu').slideToggle();
   });
 
- });
+});
