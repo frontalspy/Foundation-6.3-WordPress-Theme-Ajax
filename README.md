@@ -3,7 +3,8 @@ Testing out new javascript functions for the Foundation theme [https://github.co
 
 Adding in Ajax loading of posts, progress bars and and autoplaying video. Since the autoplay video is in the header, ajax loading the body is preferred to prevent FOUC when visiting a new page.
 
-Also use of the anime.js library
+[![Build Status](https://travis-ci.org/frontalspy/Foundation-6.3-WordPress-Theme-Ajax.svg?branch=master)](https://travis-ci.org/frontalspy/Foundation-6.3-WordPress-Theme-Ajax)
+[![devDependencies Status](https://david-dm.org/frontalspy/Foundation-6.3-WordPress-Theme-Ajax/dev-status.svg)](https://david-dm.org/frontalspy/Foundation-6.3-WordPress-Theme-Ajax?type=dev)
 
 ## Requirements
 
