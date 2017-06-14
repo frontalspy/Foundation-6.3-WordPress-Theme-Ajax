@@ -2,6 +2,10 @@
     exit; // Exit if accessed directly
 } 
 ?>
-
-<?php the_content(); ?>
-<?php wp_link_pages(['before' => '<nav class="page-nav"><p>' . __('Pages:', 'sage'), 'after' => '</p></nav>']); ?>
+<div class="row no-margin">
+  <div class="small-12 medium-3 red-background"></div>
+  <div class="small-12 medium-3 blue-background"></div>
+  <div class="small-12 medium-3 yellow-background"></div>
+  <div class="small-12 medium-3 row"><div class="small-12 medium-6 green-background"></div>
+  <div class="small-12 medium-6 red-background"></div></div>
+</div>

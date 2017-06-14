@@ -2,7 +2,7 @@
     exit; // Exit if accessed directly
 } ?>
 
-<footer class="content-info">
+ <footer class="content-info" id="footer">
   <div class="container">
     <?php dynamic_sidebar('sidebar-footer'); ?>
   </div>

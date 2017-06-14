@@ -128,11 +128,21 @@ function ajaxSearch () {
   wp_die();
 }
 
-// Add action to call getAdminBar on admin-ajax when logged in and not logged in
+// Add action to call getScript on admin-ajax when logged in and not logged in
+use Roots\Sage\Assets;
+add_action( 'wp_ajax_get_script', 'getScript' );
+add_action( 'wp_ajax_nopriv_get_script', 'getScript' );
+
+// Function to return the location o
+function getScript() {
+  check_ajax_referer( 'get-nonce', 'nonce');
+  echo Assets\asset_path('scripts/review-score.js');
+  wp_die();
+}
+
+// Ad
 add_action( 'wp_ajax_get_admin_bar', 'getAdminBar' );
 add_action( 'wp_ajax_nopriv_get_admin_bar', 'getAdminBar' );
-
-// Function to update the Edit Posts button on the admin bar
 function getAdminBar() {
   if(isset($_GET['post_slug']) && !empty($_GET['post_slug'])){
     $slug = $_GET['post_slug'];
