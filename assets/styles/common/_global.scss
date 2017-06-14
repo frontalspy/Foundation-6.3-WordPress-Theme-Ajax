@@ -1,7 +1,115 @@
+body {
+  @extend .grey-colour;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.98em;
+}
+
+p a,
+span a {}
+
+a:hover,
+a:focus {}
+
+a {
+  @extend %transition;
+}
+
 .primary-colour {
-  color: $brand-primary;
+  color: $primary-colour;
 }
 
 .primary-background {
-  background: $brand-primary;
+  background: $primary-colour;
+}
+
+.secondary-colour {
+  color: $secondary-colour;
+}
+
+.secondary-background {
+  background: $secondary-colour;
+}
+
+.grey-colour {
+  color: #333;
+}
+
+.grey-background {
+  background: #333;
+}
+
+.black-background {
+  background-color: #212121;
+}
+
+.white-colour {
+  color: white;
+}
+
+.white-background {
+  background: white;
+}
+
+.transparent {
+  background: transparent;
+}
+
+%super-cool-line {
+  position: relative;
+  &:after {
+    @extend .primary-background,
+    %transition;
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: scaleX(0);
+    visibility: hidden;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @include breakpoint(medium up) {
+    &:hover:after {
+      transform: scaleX(1);
+      visibility: visible;
+    }
+  }
+}
+
+.wpcf7-form-control-wrap {
+  margin-bottom: 1rem;
+  overflow: hidden;
+  @include breakpoint(medium only) {
+    transform: scale(0.8);
+    transform-origin: 0 0;
+  }
+  iframe {
+    height: auto;
+  }
+}
+
+.anchor {
+  position: relative;
+}
+
+.no-margin, .row.no-margin {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.no-padding, .column.no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.full-width {
+  width: 100%;
+  max-width: 100%;
+}
+
+.max-width {
+  max-width: 100%;
 }
