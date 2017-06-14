@@ -1,0 +1,14 @@
+.is-stuck .site-logo-sticky {
+  width: 100px;
+  svg {
+    animation: fade-in 3s forwards;
+  }
+}
+
+.site-logo-sticky {
+  @extend %transition;
+  overflow: hidden;
+  svg {
+    opacity: 0;
+  }
+}
