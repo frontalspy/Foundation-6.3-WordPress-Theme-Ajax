@@ -24,7 +24,7 @@ jQuery(document).ready(function($) {
   if(Modernizr.history) {
     
     // Ajax load pages on all inks other than the WPAdmin Bar
-    $(document).on('click','*:not(#wpadminbar) a',  function(e) {
+    $(document).on('click','a',  function(e) {
       // Get the URL from the href attribute for the ajax call
       var url = $(this).attr('href');
       
@@ -75,7 +75,7 @@ jQuery(document).ready(function($) {
             $(this).css({width:'0%'});
           }).fadeIn('fast');
           
-          if(('#wpadminbar').length) {
+          if($('#wpadminbar').length) {
             $.ajax({
                   type: 'GET',
                   dataType: "text",
