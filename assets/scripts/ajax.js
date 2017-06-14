@@ -92,23 +92,7 @@ jQuery(document).ready(function($) {
               }
             });
           }
-          // If the page is a review, load and execute the review-scores script
-          // Since gulp --production generates a unique id, use regex to find review-score.js
-          if($('.review-scores').length) {
-            return $.ajax({
-                dataType: "text",
-                type: 'GET',
-                url: ajaxadmin.ajaxurl,
-                data: {
-                  'action': 'get_script',
-                  'nonce' : ajaxadmin.nonce
-                }
-            }).done(function(data) {
-              $.cachedScript(data);
-            });
-          }
-        });
-      }
+        }
     });
     
     // Ajax loading for search submit
