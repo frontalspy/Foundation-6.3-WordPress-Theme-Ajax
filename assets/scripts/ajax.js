@@ -63,6 +63,7 @@ jQuery(document).ready(function($) {
         .done(function(data) {
           var regx = '(?:.+\/)([^#?]+)';
           var postSlug = url.match(regx)[1].split('/')[0];
+          
           // When the ajax returns a 200 progress the animation          
           $('#loader .progress-meter').animate({width:'75%'}, 3000);
 
@@ -92,13 +93,13 @@ jQuery(document).ready(function($) {
           if ($('#wpadminbar').length) {
             $.ajax({
                   type: 'GET',
-                  dataType: "text",
+                  dataType: 'text',
                   url: ajaxadmin.ajaxurl,
                   data: {
                     'post_slug': postSlug,
                     'action': 'get_admin_bar'
                   }
-            }).done(function(data) {
+               }).done(function(data) {
               if ($('#wpadminbar #wp-admin-bar-edit').length) {
                 $('#wpadminbar #wp-admin-bar-edit').html(data);
               } else {
@@ -125,7 +126,7 @@ jQuery(document).ready(function($) {
         dataType: 'html',
         data: {
           // Pass s (required by WordPress) to the function ajax_search
-          // 
+          // Call the nonce for security and use ajax search function
           's': search,
           'nonce' : ajaxadmin.nonce,
           'action': 'ajax_search'
@@ -136,7 +137,7 @@ jQuery(document).ready(function($) {
         $('main.main').html(data);
 
         // Using the history api, set the current state and url to the new page
-        window.history.pushState(data, "Title", url);
+        window.history.pushState(data, 'Title', url);
 
         // Check Title
         checkTitle($('h1'));
