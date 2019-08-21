@@ -1,13 +1,9 @@
-@import "common/_fonts";
 @import "settings/_settings";
 @import "common/_variables";
 
 // Automatically injected Bower dependencies via wiredep (never manually edit this block)
 // bower:scss
-@import "../../bower_components/foundation-sites/scss/foundation.scss";
-@import "../../bower_components/slick-carousel/slick/slick.scss";
-@import "../../bower_components/slick-carousel/slick/slick-theme.scss";
-@import "../../bower_components/css-hamburgers/_sass/hamburgers/hamburgers.scss";
+
 // endbower
 
 
@@ -91,7 +87,7 @@
  * Accordion component; Requires foundation.accordion.js
  * @link http://foundation.zurb.com/sites/docs/accordion.html
  */
-// @include foundation-accordion;
+@include foundation-accordion;
 
 /** 
  * Accordion Menu component; Requires foundation.accordionMenu.js
@@ -103,31 +99,31 @@
  * Badge classes & styling
  * @link http://foundation.zurb.com/sites/docs/badge.html
  */
-// @include foundation-badge;
+@include foundation-badge;
 
 /** 
  * Breadcrumbs classes & styling
  * @link http://foundation.zurb.com/sites/docs/breadcrumbs.html
  */
-// @include foundation-breadcrumbs;
+@include foundation-breadcrumbs;
 
 /** 
  * Button Group classes & styling
  * @link http://foundation.zurb.com/sites/docs/typography-base.html
  */
-// @include foundation-button-group;
+@include foundation-button-group;
 
 /** 
  * Callout classes & styling
  * @link http://foundation.zurb.com/sites/docs/callout.html
  */
-// @include foundation-callout;
+@include foundation-callout;
 
 /** 
  * Card classes & styling
  * @link http://foundation.zurb.com/sites/docs/card.html
  */
-// @include foundation-card;
+@include foundation-card;
 
 /** 
  * Close Button classes & styling
@@ -144,19 +140,19 @@
 /** 
  * Menu Icon classes & styling
  */
-// @include foundation-menu-icon;
+@include foundation-menu-icon;
 
 /** 
  * Drilldown Menu component; requires foundation.drilldown.js
  * @link http://foundation.zurb.com/sites/docs/drilldown-menu.html
  */
-// @include foundation-drilldown-menu;
+@include foundation-drilldown-menu;
 
 /** 
  * Dropdown component; requires foundation.dropdown.js
  * @link http://foundation.zurb.com/sites/docs/dropdown.html
  */
-// @include foundation-dropdown;
+@include foundation-dropdown;
 
 /** 
  * Dropdown Menu component; requires foundation.dropdownMenu.js
@@ -174,7 +170,7 @@
  * Media Object classes & styling
  * @link http://foundation.zurb.com/sites/docs/media-object.html
  */
-// @include foundation-media-object;
+@include foundation-media-object;
 
 /** 
  * Off-canvas component; requires foundation.offcanvas.js
@@ -188,13 +184,13 @@
  * @link http://foundation.zurb.com/sites/docs/orbit.html
  * @link http://foundation.zurb.com/sites/docs/motion-ui.html
  */
-// @include foundation-orbit;
+@include foundation-orbit;
 
 /** 
  * Pagination classes & styling
  * @link http://foundation.zurb.com/sites/docs/pagination.html
  */
-// @include foundation-pagination;
+@include foundation-pagination;
 
 /** 
  * Progress Bar classes & styling
@@ -212,7 +208,7 @@
  * Slider component; requires foundation.slider.js
  * @link http://foundation.zurb.com/sites/docs/slider.html
  */
-// @include foundation-slider;
+@include foundation-slider;
 
 /** 
  * Sticky component; requires foundation.sticky.js
@@ -224,13 +220,13 @@
  * Reveal component; requires foundation.reveal.js
  * @link http://foundation.zurb.com/sites/docs/reveal.html
  */
-// @include foundation-reveal;
+@include foundation-reveal;
 
 /** 
  * Switch classes & styling
  * @link http://foundation.zurb.com/sites/docs/switch.html
  */
-// @include foundation-switch;
+@include foundation-switch;
 
 /** 
  * Table classes & styling
@@ -255,13 +251,13 @@
 /** 
  * Title Bar classes & styling
  */
-// @include foundation-title-bar;
+@include foundation-title-bar;
 
 /** 
  * Tooltip Component
  * @link http://foundation.zurb.com/sites/docs/tooltip.html
  */
-// @include foundation-tooltip;
+@include foundation-tooltip;
 
 /** 
  * Top Bar classes & styling; requires foundation.tooltip.js
@@ -290,12 +286,12 @@ $fa-font-path: '../fonts';
 @import "mixins";
 @import "core";
 @import "larger";
-// @import "fixed-width";
-// @import "list";
-// @import "bordered-pulled";
-// @import "animated";
-// @import "rotated-flipped";
-// @import "stacked";
+@import "fixed-width";
+@import "list";
+@import "bordered-pulled";
+@import "animated";
+@import "rotated-flipped";
+@import "stacked";
 @import "screen-reader";
 
 /** 
