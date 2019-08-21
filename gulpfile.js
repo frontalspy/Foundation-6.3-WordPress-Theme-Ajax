@@ -1,6 +1,6 @@
 // ## Globals
 var argv         = require('minimist')(process.argv.slice(2));
-var autoprefixer = require('gulp-autoprefixer');
+var autoprefixer = require('autoprefixer');
 var browserSync  = require('browser-sync').create();
 var changed      = require('gulp-changed');
 var concat       = require('gulp-concat');
@@ -12,14 +12,16 @@ var imagemin     = require('gulp-imagemin');
 var jshint       = require('gulp-jshint');
 var lazypipe     = require('lazypipe');
 var merge        = require('merge-stream');
+var modernizr    = require('gulp-modernizr');
 var cssNano      = require('gulp-cssnano');
 var plumber      = require('gulp-plumber');
-var modernizr    = require('gulp-modernizr');
+var postcss      = require('gulp-postcss');
 var rev          = require('gulp-rev');
 var runSequence  = require('run-sequence');
 var sass         = require('gulp-sass');
 var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
+var purify       = require('gulp-purifycss');
 
 // See https://github.com/austinpray/asset-builder
 var manifest = require('asset-builder')('./assets/manifest.json');
@@ -68,6 +70,20 @@ var enabled = {
 // Path to the compiled assets manifest in the dist directory
 var revManifest = path.dist + 'assets.json';
 
+var faPath;
+
+// Set the path for FontAwesome depending on free or Pro
+var fs = require('fs'),
+FAFree = 'node_modules/@fortawesome/fontawesome-free',
+FAPro = 'node_modules/@fortawesome/fontawesome-pro';
+fs.access(FAPro, fs.constants.F_OK, (err) => {
+  if(err) {
+    faPath = FAFree;
+  } else {
+    faPath = FAPro;
+  }
+});
+
 // ## Reusable Pipelines
 // See https://github.com/OverZealous/lazypipe
 
@@ -79,6 +95,9 @@ var revManifest = path.dist + 'assets.json';
 //   .pipe(gulp.dest(path.dist + 'styles'))
 // ```
 var cssTasks = function(filename) {
+  var plugins = [
+    autoprefixer
+  ];
   return lazypipe()
     .pipe(function() {
       return gulpif(!enabled.failStyleTask, plumber());
@@ -90,21 +109,12 @@ var cssTasks = function(filename) {
       return gulpif('*.scss', sass({
         outputStyle: 'nested', // libsass doesn't support expanded yet
         precision: 10,
-        includePaths: ['.', './bower_components/foundation-sites/scss/'],
+        includePaths: ['.', faPath + '/scss'],
         errLogToConsole: !enabled.failStyleTask
       }));
     })
     .pipe(concat, filename)
-    .pipe(autoprefixer, {
-      browsers: [
-        'last 2 versions',
-        'android 4',
-        'opera 12'
-      ]
-    })
-    .pipe(cssNano, {
-      safe: true,
-    })
+    .pipe(postcss, plugins)
     .pipe(function() {
       return gulpif(enabled.rev, rev());
     })
@@ -165,16 +175,24 @@ var writeToManifest = function(directory) {
 // By default this task will only log a warning if a precompiler error is
 // raised. If the `--production` flag is set: this task will fail outright.
 gulp.task('styles', ['wiredep'], function() {
+  var fontawesome = [
+    faPath + '/scss/regular.scss',
+    faPath + '/scss/solid.scss',
+    faPath + '/scss/brands.scss',
+    faPath + '/scss/light.scss',
+  ];
   var merged = merge();
+  // merged.add(gulp.src(fontawesome, {base: 'styles'})
+  //     .pipe(cssTasks('main.css')));
   manifest.forEachDependency('css', function(dep) {
     var cssTasksInstance = cssTasks(dep.name);
-    if (!enabled.failStyleTask) {
+    if (enabled.failStyleTask) {
       cssTasksInstance.on('error', function(err) {
         console.error(err.message);
-        this.emit('end');
       });
     }
-    merged.add(gulp.src(dep.globs, {base: 'styles'})
+    var tasks = dep.globs.concat(fontawesome);
+    merged.add(gulp.src(tasks, {base: 'styles'})
       .pipe(cssTasksInstance));
   });
   return merged
@@ -200,10 +218,22 @@ gulp.task('scripts', ['jshint'], function() {
 // `gulp fonts` - Grabs all the fonts and outputs them in a flattened directory
 // structure. See: https://github.com/armed/gulp-flatten
 gulp.task('fonts', function() {
-  return gulp.src(globs.fonts)
+  var fontawesomeFonts = [
+    faPath + '/webfonts/fa-regular-*',
+    faPath + '/webfonts/fa-solid-*',
+    faPath + '/webfonts/fa-brands-*',
+    faPath + '/webfonts/fa-light-*'
+  ];
+  var loFont = gulp.src(globs.fonts)
     .pipe(flatten())
     .pipe(gulp.dest(path.dist + 'fonts'))
     .pipe(browserSync.stream());
+  var faFont = gulp.src(fontawesomeFonts)
+    .pipe(flatten())
+    .pipe(gulp.dest(path.dist + 'fonts'))
+    .pipe(browserSync.stream());
+
+  return merge(loFont, faFont);
 });
 
 // ### Images
@@ -281,6 +311,14 @@ gulp.task('comments', function() {
     .pipe(gulp.dest('./dist/styles/'));
 });
 
+// ## Purify
+// Removes a bulk of unnecessary and unused styling
+gulp.task('purify', function() {
+  return gulp.src('./dist/styles/*.css')
+  .pipe(purify(['./**/*.php', '*.php', './dist/js/*.js']))
+  .pipe(gulp.dest('./dist/styles/'));
+});
+
 // ## Empty
 // Removes empty folders
 gulp.task('empty', function() {
@@ -293,7 +331,7 @@ gulp.task('empty', function() {
 gulp.task('build', function(callback) {
   runSequence(['styles', 'scripts'],
               ['fonts', 'images', 'comments'],
-              'modernizr',
+              ['modernizr'],
               'empty',
               callback);
 });
@@ -313,6 +351,7 @@ gulp.task('wiredep', function() {
 
 // ### Gulp
 // `gulp` - Run a complete build. To compile for production run `gulp --production`.
+// Also set the FontAwesome Path
 gulp.task('default', ['clean'], function() {
   gulp.start('build');
 });
