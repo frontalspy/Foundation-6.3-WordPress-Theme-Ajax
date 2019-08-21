@@ -38,6 +38,12 @@ function jQueryVersion() {
 
 add_action('init', 'jQueryVersion');
 
+// WooCommerce theme support
+add_action( 'after_setup_theme', 'woocommerce_support' );
+function woocommerce_support() {
+    add_theme_support( 'woocommerce' );
+}
+
 // Add async to jquery and defer all other scripts to prevent
 // render blocking.
 function nonRenderBlockScript($tag, $handle) {
