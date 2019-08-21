@@ -106,7 +106,7 @@ function Utils() {}
   var Utils = new Utils();
 
 jQuery(document).ready(function($) {
-  
+
   // Hamburger menu toggling the menu
   $('.hamburger').click(function() {
     if ($(this).hasClass('is-active')) {
@@ -116,5 +116,5 @@ jQuery(document).ready(function($) {
     }
     $(this).next().find('#top-menu').slideToggle();
   });
-  
+
  });
