@@ -20,19 +20,9 @@
     "jquery.js": {
       "bower": ["jquery"]
     },
-    "review-score.js": {
-      "files": [
-        "scripts/review-score.js"
-      ]
-    },
     "ajax.js": {
       "files": [
         "scripts/ajax.js"
-      ]
-    },
-    "mal-connect.js": {
-      "files": [
-        "scripts/mal-connect.js"
       ]
     }
   },
