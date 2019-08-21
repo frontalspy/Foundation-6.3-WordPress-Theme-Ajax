@@ -21,7 +21,6 @@ var runSequence  = require('run-sequence');
 var sass         = require('gulp-sass');
 var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
-var purify       = require('gulp-purifycss');
 
 // See https://github.com/austinpray/asset-builder
 var manifest = require('asset-builder')('./assets/manifest.json');
@@ -311,14 +310,6 @@ gulp.task('comments', function() {
     .pipe(gulp.dest('./dist/styles/'));
 });
 
-// ## Purify
-// Removes a bulk of unnecessary and unused styling
-gulp.task('purify', function() {
-  return gulp.src('./dist/styles/*.css')
-  .pipe(purify(['./**/*.php', '*.php', './dist/js/*.js']))
-  .pipe(gulp.dest('./dist/styles/'));
-});
-
 // ## Empty
 // Removes empty folders
 gulp.task('empty', function() {
@@ -331,7 +322,7 @@ gulp.task('empty', function() {
 gulp.task('build', function(callback) {
   runSequence(['styles', 'scripts'],
               ['fonts', 'images', 'comments'],
-              ['modernizr'],
+              'modernizr',
               'empty',
               callback);
 });
